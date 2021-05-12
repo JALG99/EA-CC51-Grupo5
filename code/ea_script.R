@@ -178,6 +178,8 @@ table(hotel.booking$is_repeated_guest,hotel.booking$market_segment)
 
 #Preguntas del Examen Parcial
 
+library(ggplot2)
+
 counts5 = table(hotel.booking.limpio$is_canceled, hotel.booking.limpio$hotel)
 counts5 = data.frame(counts5)
 ggplot(counts5, aes(x=Var2, y=Freq, fill=Var1)) + 
