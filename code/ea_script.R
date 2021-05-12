@@ -205,7 +205,7 @@ hotel.booking.analisis$with_kids[hotel.booking.limpio$children == 0 & hotel.book
 hotel.booking.analisis$with_kids <- as.factor(hotel.booking.analisis$with_kids)
 summary(hotel.booking.analisis)
 counts8 = table(hotel.booking.analisis$with_kids, hotel.booking.analisis$arrival_date_year)
-barplot(counts8, col=c("blue","red"), legend = c("Sin niños","Con niños"), main = "Reservas que incluian niños y/o bebés")
+barplot(counts8, col=c("blue","red"), legend = c("Sin niños","Con niños"), main = "Reservas que incluyan niños y/o bebés")
 #e
 
 hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces > 0] <- 1
