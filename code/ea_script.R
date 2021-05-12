@@ -1,5 +1,5 @@
 #CARGAR DATOS
-hotel.booking = read.csv("./data/hotel_bookings.csv", header = TRUE, stringsAsFactors= FALSE, sep = ",")
+hotel.booking = read.csv("../data/hotel_bookings.csv", header = TRUE, stringsAsFactors= FALSE, sep = ",")
 
 #INSPECCIONAR DATOS
 
@@ -213,9 +213,18 @@ barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), ma
 #b
 
 
+counts7 = table(hotel.booking.limpio$arrival_date_year[hotel.booking.limpio$arrival_date_year == '2016'], hotel.booking.limpio$arrival_date_month[hotel.booking.limpio$arrival_date_year == '2016'])
+barplot(counts7, main = "Reservas por mes en el año 2016")
+#c , d
 
-
-
+hotel.booking.analisis <- hotel.booking.limpio
+hotel.booking.analisis$with_kids[hotel.booking.limpio$children > 0 | hotel.booking$babies > 0] <- 1
+hotel.booking.analisis$with_kids[hotel.booking.limpio$children == 0 & hotel.booking$babies == 0] <- 0
+hotel.booking.analisis$with_kids <- as.factor(hotel.booking.analisis$with_kids)
+summary(hotel.booking.analisis)
+counts8 = table(hotel.booking.analisis$with_kids, hotel.booking.analisis$arrival_date_year)
+barplot(counts8, col=c("blue","red"), legend = c("Sin niños","Con niños"), main = "Reservas que incluian niños y/o bebés")
+#e
 
 hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces > 0] <- 1
 hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces == 0] <- 0
