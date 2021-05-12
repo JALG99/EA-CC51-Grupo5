@@ -15,12 +15,12 @@ tail(hotel.booking, 5)
 #Ver nombres de las columnas del dataframe
 names(hotel.booking)
 
-str(hotel.booking)
 #Al revisar los datos nos damos cuenta que existe múltiples valores que funcionarían mejor como factor.
+str(hotel.booking)
 
-summary(hotel.booking)
-#Con Summary corroboramos que hay datos numércios que estan cumpliendo la función de factor y deben ser corregidos, además
+#Con Summary corroboramos que hay datos numéricos que estan cumpliendo la función de factor y deben ser corregidos, además
 #se nota la presencia de algunos NAs en Children, sin embargo la limpieza necesaria se hará luego.
+summary(hotel.booking)
 
 hotel.booking$is_canceled = as.factor(hotel.booking$is_canceled)
 hotel.booking$arrival_date_year = as.factor(hotel.booking$arrival_date_year)
@@ -41,13 +41,14 @@ hotel.booking$company = as.factor(hotel.booking$company)
 hotel.booking$customer_type = as.factor(hotel.booking$customer_type)
 hotel.booking$reservation_status = as.factor(hotel.booking$reservation_status)
 hotel.booking$reservation_status_date = as.factor(hotel.booking$reservation_status_date)
-#Se convirtieron estas variables a Factor y se realizó una verificación posterior
 
+#Se convirtieron estas variables a Factor y se realizó una verificación posterior
 str(hotel.booking)
 
-summary(hotel.booking)
-#Finalmente comprobamos que los datos están correctos en cuanto al tiempo y podemos proceder con el análisis y selección
+#Finalmente comprobamos que los datos están correctos en cuanto y podemos proceder con el análisis y selección
 #de visualizaciones.
+summary(hotel.booking)
+
 
 #LIMPIEZA DE DATOS
 
@@ -145,6 +146,8 @@ hotel.booking.limpio$days_in_waiting_list[hotel.booking.limpio$days_in_waiting_l
 
 
 #VISUALIZACIONES
+
+#Gráficas propuestas de la TA 1
 counts = table(hotel.booking$customer_type, hotel.booking$reserved_room_type)
 barplot(counts, col=c("green","yellow","blue","red"), legend = c("Contrato", "Grupo", "Transitorio", "Transitorio asociado"), main = "Tipo de cliente por habitación reservada")
 #Esta gráfica nos ayuda a verificar dos cosas, primero cuales son los tipos de habitación más reservados en relación con el tipo de cliente, vemos que en todos los tipos de habitación
@@ -168,14 +171,18 @@ counts4=table(hotel.booking$is_repeated_guest,hotel.booking$market_segment)
 barplot(counts4,col = c("blue","green"),legend=c("No Constante","Constante"),main="Constancia cliente por segmento de mercado")
 # Esta grafica permite observar que tipo de segmento de mercado es mas constante o repetitivo(siendo en este caso con un mayor porcentaje el corporativo).
 
+
+#Preguntas del Examen Parcial
+
 counts5 = table(hotel.booking$is_canceled, hotel.booking$hotel)
-barplot(counts5, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Cantidad de reservas canceladas y no canceladas por hotel")
+bp <- barplot(counts5, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Cantidad de reservas canceladas y no canceladas por hotel")
 #a
 
 library(MASS)
 
 counts6 = table(hotel.booking$arrival_date_year[hotel.booking$is_canceled == '0'], hotel.booking$arrival_date_month[hotel.booking$is_canceled == '0'])
 order.tab <- c('January','February','March','April','May','June','July','August','September','October','November','Dicember')
+
 parcoord(counts6[order.tab], c("blue","red", "green"))
 parcoord(counts6, c("blue","red", "green"), legend = c("2015","2016","2017"))
 
