@@ -178,7 +178,7 @@ table(hotel.booking$is_repeated_guest,hotel.booking$market_segment)
 
 #Preguntas del Examen Parcial
 
-counts5 = table(hotel.booking$is_canceled, hotel.booking$hotel)
+counts5 = table(hotel.booking.limpio$is_canceled, hotel.booking.limpio$hotel)
 counts5 = data.frame(counts5)
 ggplot(counts5, aes(x=Var2, y=Freq, fill=Var1)) + 
   geom_bar(position = 'dodge',stat='identity') +
@@ -187,6 +187,8 @@ ggplot(counts5, aes(x=Var2, y=Freq, fill=Var1)) +
   xlab("Hotel") + ylab("# Reservas") + labs(fill = "Cancelado (0=Si, 1=No)")
 #a
 
+counts6 = table(hotel.booking.limpio$arrival_date_month, hotel.booking.limpio$arrival_date_year)
+counts6 = data.frame(counts6)
 ggplot(counts6, aes(x=Var2, y=Freq, fill=Var1)) + 
   geom_bar(position = 'dodge',stat='identity') +
   geom_text(aes(label=Freq), position=position_dodge(width=0.9), vjust=-0.25) +
