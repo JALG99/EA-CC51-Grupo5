@@ -184,7 +184,7 @@ ggplot(counts5, aes(x=Var2, y=Freq, fill=Var1)) +
   geom_bar(position = 'dodge',stat='identity') +
   geom_text(aes(label=Freq), position=position_dodge(width=0.9), vjust=-0.25) +
   ggtitle("Número de reservas canceladas y no canceladas por hotel") +
-  xlab("Hotel") + ylab("# Reservas") + labs(fill = "Cancelado (0=Si, 1=No)")
+  xlab("Hotel") + ylab("# Reservas") + labs(fill = "Cancelado (0=No, 1=Si)")
 #a
 
 counts6 = table(hotel.booking.limpio$arrival_date_month, hotel.booking.limpio$arrival_date_year)
