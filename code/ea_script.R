@@ -15,11 +15,11 @@ tail(hotel.booking, 5)
 #Ver nombres de las columnas del dataframe
 names(hotel.booking)
 
-#Al revisar los datos nos damos cuenta que existe mÃºltiples valores que funcionarÃ­an mejor como factor.
+#Al revisar los datos nos damos cuenta que existe mÃºltiples valores que funcionarán mejor como factor.
 str(hotel.booking)
 
-#Con Summary corroboramos que hay datos numÃ©ricos que estan cumpliendo la funciÃ³n de factor y deben ser corregidos, ademÃ¡s
-#se nota la presencia de algunos NAs en Children, sin embargo la limpieza necesaria se harÃ¡ luego.
+#Con Summary corroboramos que hay datos numéricos que estan cumpliendo la función de factor y deben ser corregidos, además
+#se nota la presencia de algunos NAs en Children, sin embargo la limpieza necesaria se hará luego.
 summary(hotel.booking)
 
 hotel.booking$is_canceled = as.factor(hotel.booking$is_canceled)
@@ -42,10 +42,10 @@ hotel.booking$customer_type = as.factor(hotel.booking$customer_type)
 hotel.booking$reservation_status = as.factor(hotel.booking$reservation_status)
 hotel.booking$reservation_status_date = as.factor(hotel.booking$reservation_status_date)
 
-#Se convirtieron estas variables a Factor y se realizÃ³ una verificaciÃ³n posterior
+#Se convirtieron estas variables a Factor y se realizÃ³ una verificación posterior
 str(hotel.booking)
 
-#Finalmente comprobamos que los datos estÃ¡n correctos en cuanto y podemos proceder con el anÃ¡lisis y selecciÃ³n
+#Finalmente comprobamos que los datos estÃ¡n correctos en cuanto y podemos proceder con el anÃ¡lisis y selección
 #de visualizaciones.
 summary(hotel.booking)
 
@@ -58,8 +58,8 @@ summary(hotel.booking)
 summary(hotel.booking)
 
 #En este caso vemos que children tiene 4 valores NAs.
-#Consideramos que lo mejor serÃ­a reemplazar esos valores por 0, esto ya que lo mÃ¡s probable es que no se haya colocado un valor
-#debido a que no habÃ­an niÃ±os.
+#Consideramos que lo mejor será reemplazar esos valores por 0, esto ya que lo más probable es que no se haya colocado un valor
+#debido a que no habían niños.
 hotel.booking.limpio <- hotel.booking
 hotel.booking.limpio$children[is.na(hotel.booking.limpio$children)] <- 0
 
@@ -68,7 +68,7 @@ hotel.booking.limpio$children[is.na(hotel.booking.limpio$children)]
 
 #Corregir outliers
 
-#Revisamos cada columna numÃ©rica para verificar la presencia de outliers
+#Revisamos cada columna numérica para verificar la presencia de outliers
 boxplot(hotel.booking.limpio$lead_time)$out
 boxplot(hotel.booking.limpio$stays_in_weekend_nights)$out
 boxplot(hotel.booking.limpio$stays_in_week_nights)$out
@@ -90,7 +90,7 @@ hotel.booking.limpio$adr[hotel.booking.limpio$adr < 0] <- 6.38
 #Luego hacemos una revisiÃ³n de los datos
 View(hotel.booking.limpio)
 
-#Utilizamos la funciÃ³n aprendida en clase para corregir la mayorÃ­a de outliers
+#Utilizamos la función aprendida en clase para corregir la mayoía de outliers
 replace_outliers <-function(x, removeNA = TRUE){
   qrts <-quantile(x, probs = c(0.25, 0.75), na.rm = removeNA)
   #si el outlier esta por debajo del cuartil 0.5 o por arriba de 0.95
@@ -140,25 +140,25 @@ hotel.booking.limpio$previous_bookings_not_canceled[hotel.booking.limpio$previou
 table(hotel.booking.limpio$days_in_waiting_list)
 hotel.booking.limpio$days_in_waiting_list[hotel.booking.limpio$days_in_waiting_list > 1] <- 1
 
-#En la mayorÃ­a de los casos a pesar de agrupar lo datos no se elminaron por completo los outliers, esto debido a la gran
-#concentraciÃ³n en valores como el 0, que para eliminar outliers conllevarÃ­a pasar todos los valores a 0
-#lo cual consideramos no serÃ­a lo mÃ¡s Ã³ptimo para el anÃ¡lisis.
+#En la mayoria de los casos a pesar de agrupar lo datos no se elminaron por completo los outliers, esto debido a la gran
+#concentración en valores como el 0, que para eliminar outliers conllevará pasar todos los valores a 0
+#lo cual consideramos no será lo más optimo para el análisis.
 
 
 #VISUALIZACIONES
 
-#GrÃ¡ficas propuestas de la TA 1
+#Gráficas propuestas de la TA 1
 counts = table(hotel.booking$customer_type, hotel.booking$reserved_room_type)
 barplot(counts, col=c("green","yellow","blue","red"), legend = c("Contrato", "Grupo", "Transitorio", "Transitorio asociado"), main = "Tipo de cliente por habitación reservada")
 table(hotel.booking$customer_type, hotel.booking$reserved_room_type)
-#Esta grÃ¡fica nos ayuda a verificar dos cosas, primero cuales son los tipos de habitaciÃ³n mÃ¡s reservados en relaciÃ³n con el tipo de cliente, vemos que en todos los tipos de habitaciÃ³n
-#predomina el transitorio, ademÃ¡s nos permite conocer los tipos de habitaciÃ³n mÃ¡s solicitadas en las reservas, notando una clara victoria por parte del tipo A seguido del tipo D.
+#Esta gráfica nos ayuda a verificar dos cosas, primero cuales son los tipos de habitación más reservados en relación con el tipo de cliente, vemos que en todos los tipos de habitación
+#predomina el transitorio, además nos permite conocer los tipos de habitación más solicitadas en las reservas, notando una clara victoria por parte del tipo A seguido del tipo D.
 
 counts2 = table(hotel.booking$reservation_status, hotel.booking$deposit_type)
 barplot(counts2, col=c("blue","red","green"), legend = c("Cancelado", "Check-out", "No se muestra"), main = "Estado de la reservación por el tipo de deposito")
 table(hotel.booking$reservation_status, hotel.booking$deposit_type)
-#Esta grÃ¡fica nos ayuda a revisar por el estado de la reservaciÃ³n que tipo de deposito predomina y notamos algo increible, en el caso de los que no hacen ningÃºn depÃ³sito la gran mayorÃ­a
-#termina completando su estadÃ­a y retirandose, sin embargo en los realizan un depÃ³sito completo que no tiene lugar a devoluciones se ve que predomina por mucho la cantidad de clientes
+#Esta gráfica nos ayuda a revisar por el estado de la reservación que tipo de deposito predomina y notamos algo increible, en el caso de los que no hacen ningún deposito la gran mayoría
+#termina completando su estadía y retirandose, sin embargo en los realizan un depósito completo que no tiene lugar a devoluciones se ve que predomina por mucho la cantidad de clientes
 #que cancelaron.
 
 counts3 =  table(hotel.booking$is_canceled, hotel.booking$hotel)
