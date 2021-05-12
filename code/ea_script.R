@@ -1,5 +1,5 @@
 #CARGAR DATOS
-hotel.booking = read.csv("../data/hotel_bookings.csv", header = TRUE, stringsAsFactors= FALSE, sep = ",")
+hotel.booking = read.csv("./data/hotel_bookings.csv", header = TRUE, stringsAsFactors= FALSE, sep = ",")
 
 #INSPECCIONAR DATOS
 
@@ -221,5 +221,6 @@ counts10 = table(hotel.booking.limpio$is_canceled, hotel.booking.limpio$arrival_
 barplot(counts10, col=c("blue","red"), legend = c("Cancelada","No cancelada"), main = "Cantidad de reservas cancenladas por mes")
 #g
 
+#GENERAR .CSV
 
-
+write.csv(hotel.booking.limpio,'./data/hotel_bookings_limpio.csv', na="NA",row.names=FALSE)
