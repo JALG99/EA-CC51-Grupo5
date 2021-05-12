@@ -1,5 +1,5 @@
 #CARGAR DATOS
-hotel.booking = read.csv("./data/hotel_bookings.csv", header = TRUE, stringsAsFactors= FALSE, sep = ",")
+hotel.booking = read.csv("../data/hotel_bookings.csv", header = TRUE, stringsAsFactors= FALSE, sep = ",")
 
 #INSPECCIONAR DATOS
 
@@ -15,11 +15,11 @@ tail(hotel.booking, 5)
 #Ver nombres de las columnas del dataframe
 names(hotel.booking)
 
-#Al revisar los datos nos damos cuenta que existe múltiples valores que funcionarían mejor como factor.
+#Al revisar los datos nos damos cuenta que existe mÃºltiples valores que funcionarÃ­an mejor como factor.
 str(hotel.booking)
 
-#Con Summary corroboramos que hay datos numéricos que estan cumpliendo la función de factor y deben ser corregidos, además
-#se nota la presencia de algunos NAs en Children, sin embargo la limpieza necesaria se hará luego.
+#Con Summary corroboramos que hay datos numÃ©ricos que estan cumpliendo la funciÃ³n de factor y deben ser corregidos, ademÃ¡s
+#se nota la presencia de algunos NAs en Children, sin embargo la limpieza necesaria se harÃ¡ luego.
 summary(hotel.booking)
 
 hotel.booking$is_canceled = as.factor(hotel.booking$is_canceled)
@@ -42,10 +42,10 @@ hotel.booking$customer_type = as.factor(hotel.booking$customer_type)
 hotel.booking$reservation_status = as.factor(hotel.booking$reservation_status)
 hotel.booking$reservation_status_date = as.factor(hotel.booking$reservation_status_date)
 
-#Se convirtieron estas variables a Factor y se realizó una verificación posterior
+#Se convirtieron estas variables a Factor y se realizÃ³ una verificaciÃ³n posterior
 str(hotel.booking)
 
-#Finalmente comprobamos que los datos están correctos en cuanto y podemos proceder con el análisis y selección
+#Finalmente comprobamos que los datos estÃ¡n correctos en cuanto y podemos proceder con el anÃ¡lisis y selecciÃ³n
 #de visualizaciones.
 summary(hotel.booking)
 
@@ -58,8 +58,8 @@ summary(hotel.booking)
 summary(hotel.booking)
 
 #En este caso vemos que children tiene 4 valores NAs.
-#Consideramos que lo mejor sería reemplazar esos valores por 0, esto ya que lo más probable es que no se haya colocado un valor
-#debido a que no habían niños.
+#Consideramos que lo mejor serÃ­a reemplazar esos valores por 0, esto ya que lo mÃ¡s probable es que no se haya colocado un valor
+#debido a que no habÃ­an niÃ±os.
 hotel.booking.limpio <- hotel.booking
 hotel.booking.limpio$children[is.na(hotel.booking.limpio$children)] <- 0
 
@@ -68,7 +68,7 @@ hotel.booking.limpio$children[is.na(hotel.booking.limpio$children)]
 
 #Corregir outliers
 
-#Revisamos cada columna numérica para verificar la presencia de outliers
+#Revisamos cada columna numÃ©rica para verificar la presencia de outliers
 boxplot(hotel.booking.limpio$lead_time)$out
 boxplot(hotel.booking.limpio$stays_in_weekend_nights)$out
 boxplot(hotel.booking.limpio$stays_in_week_nights)$out
@@ -87,10 +87,10 @@ boxplot(hotel.booking.limpio$total_of_special_requests)$out
 #el mismo valor en positivo
 hotel.booking.limpio$adr[hotel.booking.limpio$adr < 0] <- 6.38
 
-#Luego hacemos una revisión de los datos
+#Luego hacemos una revisiÃ³n de los datos
 View(hotel.booking.limpio)
 
-#Utilizamos la función aprendida en clase para corregir la mayoría de outliers
+#Utilizamos la funciÃ³n aprendida en clase para corregir la mayorÃ­a de outliers
 replace_outliers <-function(x, removeNA = TRUE){
   qrts <-quantile(x, probs = c(0.25, 0.75), na.rm = removeNA)
   #si el outlier esta por debajo del cuartil 0.5 o por arriba de 0.95
@@ -140,35 +140,39 @@ hotel.booking.limpio$previous_bookings_not_canceled[hotel.booking.limpio$previou
 table(hotel.booking.limpio$days_in_waiting_list)
 hotel.booking.limpio$days_in_waiting_list[hotel.booking.limpio$days_in_waiting_list > 1] <- 1
 
-#En la mayoría de los casos a pesar de agrupar lo datos no se elminaron por completo los outliers, esto debido a la gran
-#concentración en valores como el 0, que para eliminar outliers conllevaría pasar todos los valores a 0
-#lo cual consideramos no sería lo más óptimo para el análisis.
+#En la mayorÃ­a de los casos a pesar de agrupar lo datos no se elminaron por completo los outliers, esto debido a la gran
+#concentraciÃ³n en valores como el 0, que para eliminar outliers conllevarÃ­a pasar todos los valores a 0
+#lo cual consideramos no serÃ­a lo mÃ¡s Ã³ptimo para el anÃ¡lisis.
 
 
 #VISUALIZACIONES
 
-#Gráficas propuestas de la TA 1
+#GrÃ¡ficas propuestas de la TA 1
 counts = table(hotel.booking$customer_type, hotel.booking$reserved_room_type)
 barplot(counts, col=c("green","yellow","blue","red"), legend = c("Contrato", "Grupo", "Transitorio", "Transitorio asociado"), main = "Tipo de cliente por habitación reservada")
-#Esta gráfica nos ayuda a verificar dos cosas, primero cuales son los tipos de habitación más reservados en relación con el tipo de cliente, vemos que en todos los tipos de habitación
-#predomina el transitorio, además nos permite conocer los tipos de habitación más solicitadas en las reservas, notando una clara victoria por parte del tipo A seguido del tipo D.
+table(hotel.booking$customer_type, hotel.booking$reserved_room_type)
+#Esta grÃ¡fica nos ayuda a verificar dos cosas, primero cuales son los tipos de habitaciÃ³n mÃ¡s reservados en relaciÃ³n con el tipo de cliente, vemos que en todos los tipos de habitaciÃ³n
+#predomina el transitorio, ademÃ¡s nos permite conocer los tipos de habitaciÃ³n mÃ¡s solicitadas en las reservas, notando una clara victoria por parte del tipo A seguido del tipo D.
 
 counts2 = table(hotel.booking$reservation_status, hotel.booking$deposit_type)
 barplot(counts2, col=c("blue","red","green"), legend = c("Cancelado", "Check-out", "No se muestra"), main = "Estado de la reservación por el tipo de deposito")
-#Esta gráfica nos ayuda a revisar por el estado de la reservación que tipo de deposito predomina y notamos algo increible, en el caso de los que no hacen ningún depósito la gran mayoría
-#termina completando su estadía y retirandose, sin embargo en los realizan un depósito completo que no tiene lugar a devoluciones se ve que predomina por mucho la cantidad de clientes
+table(hotel.booking$reservation_status, hotel.booking$deposit_type)
+#Esta grÃ¡fica nos ayuda a revisar por el estado de la reservaciÃ³n que tipo de deposito predomina y notamos algo increible, en el caso de los que no hacen ningÃºn depÃ³sito la gran mayorÃ­a
+#termina completando su estadÃ­a y retirandose, sin embargo en los realizan un depÃ³sito completo que no tiene lugar a devoluciones se ve que predomina por mucho la cantidad de clientes
 #que cancelaron.
 
 counts3 =  table(hotel.booking$is_canceled, hotel.booking$hotel)
 barplot(counts3, col=c("blue","red"), legend = c("Continuaron", "Cancelado"), main = "Cancelacion de reserva por tipo de hotel")
+table(hotel.booking$is_canceled, hotel.booking$hotel)
 #Esta grafica nos permite ver en tipo de hotel hay mas cancelaciones.
 
 table(hotel.booking$arrival_date_month)
-barplot(table(hotel.booking$arrival_date_month), main = "Meses que mas llegan al hotel", names= c("April", "August", "December", "February", "January", "July", "June", "March", "May", "November", "October", "September"))
+barplot(table(hotel.booking$arrival_date_month), main = "Reservas totales por mes", names= c("April", "August", "December", "February", "January", "July", "June", "March", "May", "November", "October", "September"))
 #Esta grafica nos ayuda a ver el volumen de usuarios por cada mes y de esta manera estar mas preparados para cuando los meses de mayor afluencia lleguen.
 
 counts4=table(hotel.booking$is_repeated_guest,hotel.booking$market_segment)
-barplot(counts4,col = c("blue","green"),legend=c("No Constante","Constante"),main="Constancia cliente por segmento de mercado")
+barplot(counts4,col = c("blue","green"),legend=c("No Constante","Constante"),main="Clientes frecuentes por origen de la reserva")
+table(hotel.booking$is_repeated_guest,hotel.booking$market_segment)
 # Esta grafica permite observar que tipo de segmento de mercado es mas constante o repetitivo(siendo en este caso con un mayor porcentaje el corporativo).
 
 
@@ -191,16 +195,25 @@ ggplot(counts6, aes(x=Var2, y=Freq, fill=Var1)) +
 #b
 
 
+counts7 = table(hotel.booking.limpio$arrival_date_year[hotel.booking.limpio$arrival_date_year == '2016'], hotel.booking.limpio$arrival_date_month[hotel.booking.limpio$arrival_date_year == '2016'])
+barplot(counts7, main = "Reservas por mes en el año 2016")
+#c , d
 
-
-
+hotel.booking.analisis <- hotel.booking.limpio
+hotel.booking.analisis$with_kids[hotel.booking.limpio$children > 0 | hotel.booking$babies > 0] <- 1
+hotel.booking.analisis$with_kids[hotel.booking.limpio$children == 0 & hotel.booking$babies == 0] <- 0
+hotel.booking.analisis$with_kids <- as.factor(hotel.booking.analisis$with_kids)
+summary(hotel.booking.analisis)
+counts8 = table(hotel.booking.analisis$with_kids, hotel.booking.analisis$arrival_date_year)
+barplot(counts8, col=c("blue","red"), legend = c("Sin niños","Con niños"), main = "Reservas que incluian niños y/o bebés")
+#e
 
 hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces > 0] <- 1
 hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces == 0] <- 0
 hotel.booking.analisis$with_parking <- as.factor(hotel.booking.analisis$with_parking)
 summary(hotel.booking.analisis)
 counts9 = table(hotel.booking.analisis$with_parking, hotel.booking.analisis$arrival_date_year)
-barplot(counts9, col=c("blue","red"), legend = c("Sin parqueo","Con parqueo"), main = "Reservas que requer?an espacio para auto")
+barplot(counts9, col=c("blue","red"), legend = c("Sin parqueo","Con parqueo"), main = "Reservas que requerían espacio para auto")
 #f
 
 
