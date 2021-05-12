@@ -175,37 +175,19 @@ barplot(counts4,col = c("blue","green"),legend=c("No Constante","Constante"),mai
 #Preguntas del Examen Parcial
 
 counts5 = table(hotel.booking$is_canceled, hotel.booking$hotel)
-bp <- barplot(counts5, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Cantidad de reservas canceladas y no canceladas por hotel")
+counts5 = data.frame(counts5)
+ggplot(counts5, aes(x=Var2, y=Freq, fill=Var1)) + 
+  geom_bar(position = 'dodge',stat='identity') +
+  geom_text(aes(label=Freq), position=position_dodge(width=0.9), vjust=-0.25) +
+  ggtitle("Número de reservas canceladas y no canceladas por hotel") +
+  xlab("Hotel") + ylab("# Reservas") + labs(fill = "Cancelado (0=Si, 1=No)")
 #a
 
-library(MASS)
-
-counts6 = table(hotel.booking$arrival_date_year[hotel.booking$is_canceled == '0'], hotel.booking$arrival_date_month[hotel.booking$is_canceled == '0'])
-order.tab <- c('January','February','March','April','May','June','July','August','September','October','November','Dicember')
-
-parcoord(counts6[order.tab], c("blue","red", "green"))
-parcoord(counts6, c("blue","red", "green"), legend = c("2015","2016","2017"))
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'July'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'July'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en julio")
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'June'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'June'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en junio")
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'May'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'May'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en mayo")
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'April'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'April'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en abril")
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'March'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'March'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en marzo")
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'February'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'February'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en febrero")
-
-counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'January'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'January'])
-barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en enero")
+ggplot(counts6, aes(x=Var2, y=Freq, fill=Var1)) + 
+  geom_bar(position = 'dodge',stat='identity') +
+  geom_text(aes(label=Freq), position=position_dodge(width=0.9), vjust=-0.25) +
+  ggtitle("Número de reservas por mes y año") +
+  xlab("Año") + ylab("# Reservas") + labs(fill = "Mes")
 #b
 
 
@@ -218,7 +200,7 @@ hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_sp
 hotel.booking.analisis$with_parking <- as.factor(hotel.booking.analisis$with_parking)
 summary(hotel.booking.analisis)
 counts9 = table(hotel.booking.analisis$with_parking, hotel.booking.analisis$arrival_date_year)
-barplot(counts9, col=c("blue","red"), legend = c("Sin parqueo","Con parqueo"), main = "Reservas que requer�an espacio para auto")
+barplot(counts9, col=c("blue","red"), legend = c("Sin parqueo","Con parqueo"), main = "Reservas que requer?an espacio para auto")
 #f
 
 
