@@ -200,3 +200,24 @@ barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), ma
 counts6 = table(hotel.booking$is_canceled[hotel.booking$arrival_date_month == 'January'], hotel.booking$arrival_date_year[hotel.booking$arrival_date_month == 'January'])
 barplot(counts6, col=c("blue","red"), legend = c("No cancelada","Cancelada"), main = "Estado de la reserva más común por año en enero")
 #b
+
+
+
+
+
+
+hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces > 0] <- 1
+hotel.booking.analisis$with_parking[hotel.booking.limpio$required_car_parking_spaces == 0] <- 0
+hotel.booking.analisis$with_parking <- as.factor(hotel.booking.analisis$with_parking)
+summary(hotel.booking.analisis)
+counts9 = table(hotel.booking.analisis$with_parking, hotel.booking.analisis$arrival_date_year)
+barplot(counts9, col=c("blue","red"), legend = c("Sin parqueo","Con parqueo"), main = "Reservas que requer�an espacio para auto")
+#f
+
+
+counts10 = table(hotel.booking.limpio$is_canceled, hotel.booking.limpio$arrival_date_month)
+barplot(counts10, col=c("blue","red"), legend = c("Cancelada","No cancelada"), main = "Cantidad de reservas cancenladas por mes")
+#g
+
+
+
